@@ -12,6 +12,6 @@
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'Cichon_CustomersExtraFields',
+    'Cichon_CustomerExtraFields',
     __DIR__
 );

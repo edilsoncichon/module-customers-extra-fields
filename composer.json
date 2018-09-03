@@ -1,6 +1,6 @@
 {
-  "name": "cichon/module-customers-extra-fields",
-  "description": "Customers Extra fields for Magento 2",
+  "name": "cichon/module-customer-extra-fields",
+  "description": "Customer Extra fields for Magento 2",
   "type": "magento2-module",
   "version": "1.0.0",
   "license": [
@@ -21,7 +21,7 @@
   "autoload": {
     "files": [ "registration.php" ],
     "psr-4": {
-      "Cichon\\CustomersExtraFields\\": ""
+      "Cichon\\CustomerExtraFields\\": ""
     }
   }
 }
