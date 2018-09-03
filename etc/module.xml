@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Customers Extra Fields
+ *
+ * Extra Fields Brazilian for Customers module.
+ *
+ * @package Cichon\CustomersExtraFields
+ * @author Edilson Cichon <edilsoncichon@hotmail.com>
+ * @copyright Copyright (c) 2018 Edilson Cichon (http://edilson.xyz)
+ * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Cichon_CustomersExtraFields" setup_version="1.0.0">
+        <sequence>
+            <module name="Magento_Customer"/>
+        </sequence>
+    </module>
+</config>

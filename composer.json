@@ -1,0 +1,27 @@
+{
+  "name": "cichon/module-customers-extra-fields",
+  "description": "Customers Extra fields for Magento 2",
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "license": [
+    "OSL-3.0",
+    "AFL-3.0"
+  ],
+  "require": {
+    "php": ">=7.0"
+  },
+  "authors": [
+    {
+      "name": "Edilson Cichon",
+      "email": "edilsoncichon@hotmail.com",
+      "homepage": "http://edilson.xyz",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "files": [ "registration.php" ],
+    "psr-4": {
+      "Cichon\\CustomersExtraFields\\": ""
+    }
+  }
+}
