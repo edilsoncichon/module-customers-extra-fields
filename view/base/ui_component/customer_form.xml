@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Customers Extra Fields
+ *
+ * Extra Fields Brazilian for Customers module.
+ *
+ * @package Cichon\CustomersExtraFields
+ * @author Edilson Cichon <edilsoncichon@hotmail.com>
+ * @copyright Copyright (c) 2018 Edilson Cichon (http://edilson.xyz)
+ * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <htmlContent name="extrafields_content">
+        <block class="Cichon\CustomerExtraFields\Block\Adminhtml\Tab\ExtraFields" name="extrafields">
+
+            <!--<block class="Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid" name="newsletter.grid" as="grid"/>-->
+
+        </block>
+    </htmlContent>
+</form>
