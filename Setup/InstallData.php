@@ -1,92 +1,102 @@
 <?php
 
-/**
- * Customers Extra Fields
- *
- * Extra Fields Brazilian for Customers module.
- *
- * @package Cichon\CustomersExtraFields
- * @author Edilson Cichon <edilsoncichon@hotmail.com>
- * @copyright Copyright (c) 2018 Edilson Cichon (http://edilson.xyz)
- * @license https://opensource.org/licenses/OSL-3.0.php Open Software License 3.0
- */
-
 namespace Cichon\CustomerExtraFields\Setup;
 
+use Magento\Customer\Setup\CustomerSetup;
+use Magento\Customer\Setup\CustomerSetupFactory;
 use Magento\Customer\Model\Customer;
-use Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface;
-use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
 
+/**
+ * @codeCoverageIgnore
+ */
 class InstallData implements InstallDataInterface
 {
     /**
-     * @var EavSetupFactory
+     * Customer setup factory
+     *
+     * @var CustomerSetupFactory
      */
-    private $eavSetupFactory;
+    private $customerSetupFactory;
+    /**
+     * @var AttributeSetFactory
+     */
+    private $attributeSetFactory;
 
     /**
-     * InstallData constructor.
-     * @param EavSetupFactory $eavSetupFactory
+     * Init
+     *
+     * @param CustomerSetupFactory $customerSetupFactory
      */
-    public function __construct(EavSetupFactory $eavSetupFactory)
-    {
-        $this->eavSetupFactory = $eavSetupFactory;
+    public function __construct(
+        CustomerSetupFactory $customerSetupFactory,
+        AttributeSetFactory $attributeSetFactory
+    ) {
+        $this->customerSetupFactory = $customerSetupFactory;
+        $this->attributeSetFactory = $attributeSetFactory;
     }
-
+    /**
+     * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
-        /* @var \Magento\Eav\Setup\EavSetup $eavSetup */
-        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        /** @var CustomerSetup $customerSetup */
+        $customerSetup = $this->customerSetupFactory->create(['setup' => $setup]);
+        $setup->startSetup();
 
-        $eavSetup->addAttribute(Customer::ENTITY, 'cpf',
-            [
-                'group' => 'Extra Fields',
-                'type' => 'text',
-                'backend' => '',
-                'frontend' => '',
-                'label' => __('CPF'),
-                'input' => 'input',
-                'class' => '',
-                'source' => '',
-                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
+        $attributesInfo = [
+            'cpf' => [
+                'label' => 'CPF',
+                'type' => 'varchar',
+                'input' => 'text',
                 'visible' => true,
                 'required' => false,
-                'user_defined' => false,
-                'default' => '',
-                'searchable' => false,
-                'filterable' => false,
-                'comparable' => false,
-                'visible_on_front' => true,
-                'unique' => true,
-                'apply_to' => '',
-            ]
-        );
-
-        $eavSetup->addAttribute(Customer::ENTITY, 'rg',
-            [
-                'group' => 'Extra Fields',
-                'type' => 'text',
-                'backend' => '',
-                'frontend' => '',
-                'label' => __('RG'),
-                'input' => 'input',
-                'class' => '',
-                'source' => '',
-                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
+                'system' => 0,
+                'user_defined' => true,
+                'position' => 1000,
+            ],
+            'rg' => [
+                'label' => 'RG',
+                'type' => 'varchar',
+                'input' => 'text',
                 'visible' => true,
                 'required' => false,
-                'user_defined' => false,
-                'default' => '',
-                'searchable' => false,
-                'filterable' => false,
-                'comparable' => false,
-                'visible_on_front' => true,
-                'unique' => true,
-                'apply_to' => '',
-            ]
-        );
+                'system' => 0,
+                'user_defined' => true,
+                'position' => 1010,
+            ],
+        ];
+        $customerEntity = $customerSetup->getEavConfig()->getEntityType(Customer::ENTITY);
+        $attributeSetId = $customerEntity->getDefaultAttributeSetId();
+
+        /** @var $attributeSet AttributeSet */
+        $attributeSet = $this->attributeSetFactory->create();
+        $attributeGroupId = $attributeSet->getDefaultGroupId($attributeSetId);
+
+        foreach ($attributesInfo as $attributeCode => $attributeParams) {
+            $customerSetup->addAttribute(Customer::ENTITY, $attributeCode, $attributeParams);
+        }
+
+        $cpfAttribute = $customerSetup->getEavConfig()->getAttribute(Customer::ENTITY, 'cpf');
+        $cpfAttribute->addData([
+            'attribute_set_id' => $attributeSetId,
+            'attribute_group_id' => $attributeGroupId,
+            'used_in_forms' => ['adminhtml_checkout','adminhtml_customer','adminhtml_customer_address','customer_account_edit','customer_address_edit','customer_register_address'],
+        ]);
+        $cpfAttribute->save();
+
+        $rgAttribute = $customerSetup->getEavConfig()->getAttribute(Customer::ENTITY, 'rg');
+        $rgAttribute->addData([
+            'attribute_set_id' => $attributeSetId,
+            'attribute_group_id' => $attributeGroupId,
+            'used_in_forms' => ['adminhtml_checkout','adminhtml_customer','adminhtml_customer_address','customer_account_edit','customer_address_edit','customer_register_address'],
+        ]);
+        $rgAttribute->save();
+
+        $setup->endSetup();
     }
 }
