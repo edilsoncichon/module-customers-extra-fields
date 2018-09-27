@@ -81,11 +81,20 @@ class InstallData implements InstallDataInterface
             $customerSetup->addAttribute(Customer::ENTITY, $attributeCode, $attributeParams);
         }
 
+        $usedInForms = [
+            'adminhtml_checkout',
+            'adminhtml_customer',
+            'adminhtml_customer_address',
+            'customer_account_create',
+            'customer_account_edit',
+            'customer_address_edit',
+            'customer_register_address',
+        ];
         $cpfAttribute = $customerSetup->getEavConfig()->getAttribute(Customer::ENTITY, 'cpf');
         $cpfAttribute->addData([
             'attribute_set_id' => $attributeSetId,
             'attribute_group_id' => $attributeGroupId,
-            'used_in_forms' => ['adminhtml_checkout','adminhtml_customer','adminhtml_customer_address','customer_account_edit','customer_address_edit','customer_register_address'],
+            'used_in_forms' => $usedInForms,
         ]);
         $cpfAttribute->save();
 
@@ -93,7 +102,7 @@ class InstallData implements InstallDataInterface
         $rgAttribute->addData([
             'attribute_set_id' => $attributeSetId,
             'attribute_group_id' => $attributeGroupId,
-            'used_in_forms' => ['adminhtml_checkout','adminhtml_customer','adminhtml_customer_address','customer_account_edit','customer_address_edit','customer_register_address'],
+            'used_in_forms' => $usedInForms,
         ]);
         $rgAttribute->save();
 
